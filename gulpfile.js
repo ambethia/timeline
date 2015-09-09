@@ -3,6 +3,8 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     sync = require('browser-sync').create();
 
+var ghPages = require('gulp-gh-pages');
+
 gulp.task('jade', function() {
   gulp.src('./src/**/*.jade')
    .pipe(jade())
@@ -27,6 +29,11 @@ gulp.task('serve', ['sass', 'jade'], function() {
   gulp.watch('./src/styles/**/*.sass', ['sass']);
   gulp.watch('./src/**/*.jade', ['jade']);
   gulp.watch('./dist/**/*.html').on('change', sync.reload);
+});
+
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
 });
 
 gulp.task('default', ['serve']);
